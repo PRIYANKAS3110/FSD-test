@@ -21,16 +21,41 @@ const AddEmployee = () => {
 
   const validate = () => {
     const errs: Record<string, string> = {};
+
+    // Validate Name
     if (!formData.name) errs.name = 'Name is required';
+
+    // Validate Employee ID
     if (!formData.employeeId) errs.employeeId = 'Employee ID is required';
     if (!/^[a-zA-Z0-9]{1,10}$/.test(formData.employeeId)) errs.employeeId = 'Invalid Employee ID';
-    
-    
+
+    // Validate Joining Date
     if (!formData.joiningDate) errs.joiningDate = 'Joining date is required';
     if (new Date(formData.joiningDate) > new Date()) errs.joiningDate = 'Date cannot be in the future';
+
+    // Validate Role
     if (!formData.role) errs.role = 'Role is required';
+
+    // Validate Email Format
+    if (!formData.email) {
+        errs.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        errs.email = 'Invalid email format';
+    }
+
+    // Validate Phone Number Format
+    if (!formData.phone) {
+        errs.phoneNumber = 'Phone number is required';
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+        errs.phoneNumber = 'Invalid phone number format';
+    }
+
+    // Validate Department
+    if (!formData.department) errs.department = 'Department is required';
+
     return errs;
-  };
+};
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
