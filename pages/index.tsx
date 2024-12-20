@@ -45,12 +45,9 @@ const AddEmployee = () => {
     }
 
     // Validate Role
-    const validRoles = ['Intern', 'Full-Time'];
     if (!formData.role) {
         errs.role = 'Role is required';
-    } else if (!validRoles.includes(formData.role)) {
-        errs.role = `Invalid role. Allowed values: ${validRoles.join(', ')}`;
-    }
+    } 
 
     // Validate Email Format
     if (!formData.email) {
