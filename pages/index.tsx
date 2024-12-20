@@ -23,18 +23,34 @@ const AddEmployee = () => {
     const errs: Record<string, string> = {};
 
     // Validate Name
-    if (!formData.name) errs.name = 'Name is required';
+    if (!formData.name) {
+        errs.name = 'Name is required';
+    } else if (!/^[a-zA-Z\s]{3,50}$/.test(formData.name)) {
+        errs.name = 'Name must be 3-50 characters long and should not contain numbers';
+        errs.nameSuggestions = 'Examples: John Doe, Alice Smith, Emma Watson';
+    }
 
     // Validate Employee ID
-    if (!formData.employeeId) errs.employeeId = 'Employee ID is required';
-    if (!/^[a-zA-Z0-9]{1,10}$/.test(formData.employeeId)) errs.employeeId = 'Invalid Employee ID';
+    if (!formData.employeeId) {
+        errs.employeeId = 'Employee ID is required';
+    } else if (!/^[a-zA-Z0-9]{1,10}$/.test(formData.employeeId)) {
+        errs.employeeId = 'Invalid Employee ID (1-10 alphanumeric characters)';
+    }
 
     // Validate Joining Date
-    if (!formData.joiningDate) errs.joiningDate = 'Joining date is required';
-    if (new Date(formData.joiningDate) > new Date()) errs.joiningDate = 'Date cannot be in the future';
+    if (!formData.joiningDate) {
+        errs.joiningDate = 'Joining date is required';
+    } else if (new Date(formData.joiningDate) > new Date()) {
+        errs.joiningDate = 'Joining date cannot be in the future';
+    }
 
     // Validate Role
-    if (!formData.role) errs.role = 'Role is required';
+    const validRoles = ['Intern', 'Full-Time'];
+    if (!formData.role) {
+        errs.role = 'Role is required';
+    } else if (!validRoles.includes(formData.role)) {
+        errs.role = `Invalid role. Allowed values: ${validRoles.join(', ')}`;
+    }
 
     // Validate Email Format
     if (!formData.email) {
@@ -45,16 +61,21 @@ const AddEmployee = () => {
 
     // Validate Phone Number Format
     if (!formData.phone) {
-        errs.phoneNumber = 'Phone number is required';
+        errs.phone = 'Phone number is required';
     } else if (!/^\d{10}$/.test(formData.phone)) {
-        errs.phoneNumber = 'Invalid phone number format';
+        errs.phone = 'Phone number must be exactly 10 digits';
+    } else if (formData.phone === '0000000000') {
+        errs.phone = 'Phone number cannot be all zeros';
     }
 
     // Validate Department
-    if (!formData.department) errs.department = 'Department is required';
+    if (!formData.department) {
+        errs.department = 'Department is required';
+    }
 
     return errs;
 };
+
 
 
   const handleSubmit = async (e: React.FormEvent) => {
